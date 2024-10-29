@@ -23,30 +23,33 @@ export async function generateForm(
         }
     }
 
+    const promptExplanation =
+    "Based on the description, generate a survey object with 3 fields: name(string) for the form, description(string) of the form and a questions array where every element has 2 fields: text and the fieldType and fieldType can be of these options RadioGroup, Select, Input, Textarea, Switch; and return it in json format. For RadioGroup, and Select types also return fieldOptions array with text and value fields. For example, for RadioGroup, and Select types, the field options array can be [{text: 'Yes', value: 'yes'}, {text: 'No', value: 'no'}] and for Input, Textarea, and Switch types, the field options array can be empty. For example, for Input, Textarea, and Switch types, the field options array can be []";
+
     const data = parse.data;
 
     try {
 
-        if (!process.env.OPENAI_API_KEY) {
+        if (!process.env.GEMENI_API_KEY) {
             return {
                 message: "Invalid OpenAI API Key"
             }
         }
 
         const response = await fetch(
-            "https://api.openai.com/v1/chat/completions",
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${process.env.GEMENI_API_KEY}`,
             {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization : `Bearer ${process.env.OPENAI_API_KEY}`
                 },
                 method: "POST",
                 body: JSON.stringify({
-                    model: "gpt-4o-turbo",
-                    messages: [
+                    contents: [
                         {
-                            role: "system",
-                            content: data.description
+                            parts: [{
+                                text: `${promptExplanation} ${data.description}`
+                            }]
+                            
                         }
                     ]
                 })
