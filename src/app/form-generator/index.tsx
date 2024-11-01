@@ -1,5 +1,10 @@
 'use client'
 import React, { useEffect, useState } from 'react'
+import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
+import { useFormState, useFormStatus } from 'react-dom'
+import { generateForm } from '../actions/generateForm'
+import { useSession, signIn } from 'next-auth/react'
 
 import {
     Dialog,
@@ -10,10 +15,7 @@ import {
 
 } from "@/components/ui/dialog"
 
-import { Textarea } from '@/components/ui/textarea'
-import { Button } from '@/components/ui/button'
-import { useFormState, useFormStatus } from 'react-dom'
-import { generateForm } from '../actions/generateForm'
+
 
 
 type Props = {}
@@ -36,10 +38,17 @@ export function SubmitButton() {
 
 const FormGenerator = (props: Props) => {
     const [open, setOpen] = useState(false);
-    const [state, formAction] = useFormState(generateForm, intialState)
+    const [state, formAction] = useFormState(generateForm, intialState);
+    const session = useSession();
 
     const onFormCreate = () => {
-        setOpen(true);
+
+        if(session.data?.user){
+            setOpen(true);
+        }else{
+            signIn();
+        }
+        
     }
 
     useEffect(() => {
