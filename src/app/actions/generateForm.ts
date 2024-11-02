@@ -2,6 +2,9 @@
 
 import { revalidatePath } from "next/cache"
 import { z } from 'zod'
+import { saveForm } from "./mutateForm"
+import { Description } from "@radix-ui/react-dialog"
+import { questions } from "@/db/schema"
 
 export async function generateForm(
     _prevState: {
@@ -55,6 +58,13 @@ export async function generateForm(
                 })
             })
             const json = await response.json();
+
+            const savedId = await saveForm({
+                name : "test form name",
+                description: "test description form",
+                questions: json.candidates[0].content.parts[0].text
+            });
+            
             revalidatePath("/");
 
             return {
