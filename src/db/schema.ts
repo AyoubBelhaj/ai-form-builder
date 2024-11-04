@@ -132,7 +132,7 @@ export const questionsRelations = relations(questions, ({one, many}) => ({
 export const fieldOptions = pgTable("field_options", {
   id: serial("id").primaryKey(),
   text: text("text"),
-  value: integer("value"),
+  value: text("value"),
   questionId: integer("question_id"),
 }).enableRLS();;
 

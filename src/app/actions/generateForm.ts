@@ -59,12 +59,18 @@ export async function generateForm(
             })
             const json = await response.json();
 
-            const savedId = await saveForm({
-                name : "test form name",
-                description: "test description form",
-                questions: json.candidates[0].content.parts[0].text
-            });
+            const cleanedText = json.candidates[0].content.parts[0].text.replace(/```json|```/g, '');
+            const jsonResult = JSON.parse(cleanedText); 
             
+            console.log("jsonResult",JSON.stringify(jsonResult));
+            
+            
+            const savedId = await saveForm({
+                name : jsonResult.name,
+                description: jsonResult.description,
+                questions: jsonResult.questions
+            }); 
+                        
             revalidatePath("/");
 
             return {

@@ -3,7 +3,6 @@ import { InferSelectModel } from 'drizzle-orm';
 import React from 'react'
 import {
     Card,
-    CardContent,
     CardDescription,
     CardFooter,
     CardHeader,
@@ -21,7 +20,7 @@ type props = {
 
 const FormsList = (props: props) => {
     return (
-        <div className='grid grid-cols1 md:grid-cols3 m-5 p-5 gap-4'>{props.forms.map((form: Form) => (
+        <div className='grid grid-cols1 md:grid-cols-3 m-5 p-5 gap-4'>{props.forms.map((form: Form) => (
             <Card key={form.id} className='max-w-[350px]'>
                 <CardHeader>
                     <CardTitle>{form.name}</CardTitle>
