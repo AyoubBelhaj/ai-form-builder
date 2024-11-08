@@ -14,6 +14,7 @@ import {
     DialogFooter,
 
 } from "@/components/ui/dialog"
+import { navigate } from '../actions/navigateToForm'
 
 
 
@@ -53,11 +54,9 @@ const FormGenerator = (props: Props) => {
 
     useEffect(() => {
         if (state.message === "success") {
-            setOpen(false)
+            setOpen(false);
+            navigate(state.data.savedFormId);
         }
-        console.log(state.message);
-
-        console.log(state.data);
 
     }, [state.message])
 

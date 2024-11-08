@@ -1,10 +1,9 @@
-'use server'
+'use server';
 
-import { revalidatePath } from "next/cache"
-import { z } from 'zod'
-import { saveForm } from "./mutateForm"
-import { Description } from "@radix-ui/react-dialog"
-import { questions } from "@/db/schema"
+import { revalidatePath } from "next/cache";
+import { z } from 'zod';
+import { saveForm } from "./mutateForm";
+
 
 export async function generateForm(
     _prevState: {
@@ -74,7 +73,7 @@ export async function generateForm(
             revalidatePath("/");
 
             return {
-                message: "success" , data: json
+                message: "success" , data: {savedFormId : savedId}
             }
     }catch(e) {
         console.log(e);
