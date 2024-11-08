@@ -2,11 +2,19 @@
 
 import { db } from "@/db";
 import { forms, questions as dbQuestions, fieldOptions, questions, questionsRelations } from '@/db/schema'
-
 import { auth } from "@/auth";
+import { InferSelectModel } from "drizzle-orm";
+
+type Form = InferSelectModel<typeof forms>
+type Question = InferSelectModel<typeof dbQuestions>
+type FieldOptions = InferSelectModel<typeof fieldOptions>
+
+interface SaveFormData extends Form{
+    questions : Array<Question & {fieldOptions?: FieldOptions[]}>
+}
 
 
-export async function saveForm(data: any) {
+export async function saveForm(data : SaveFormData) {
     const { name, description, questions } = data;
     const session = await auth();
     const userId = session?.user?.id;
