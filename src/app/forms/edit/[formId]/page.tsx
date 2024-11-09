@@ -42,7 +42,7 @@ const Page = async ({ params }: {
       }
 
     return (
-        <Form form={form}/>
+        <Form form={form} editMode={true}/>
     )
 }
 

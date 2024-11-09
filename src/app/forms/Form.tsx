@@ -7,7 +7,8 @@ import { useForm } from 'react-hook-form';
 import FormField from './FormField';
 
 type Props = {
-    form: Form 
+    form: Form,
+    editMode: boolean
 }
 
 interface Form extends FormSelectModel {
@@ -19,6 +20,8 @@ interface Form extends FormSelectModel {
 const Form = (props: Props) => {
 
     const form = useForm();
+
+    const {editMode} = props;
 
     const handleSubmit = (data: any) => {
         console.log(data);
@@ -42,14 +45,14 @@ const Form = (props: Props) => {
                                                 {index + 1}.{" "}{question.text}
                                             </FormLabel>
                                             <FormControl>
-                                                <FormField element={question} key={index}/>
+                                                <FormField element={question} key={index} value={field.value} onChange={field.onChange}/>
                                             </FormControl>
                                         </FormItem>
                                     )} />
                             </FormItem>
                         )
                     })}
-                    <Button type='submit'>Submit</Button>
+                    <Button type='submit'>{editMode ? "Publish" : "Submit"}</Button>
                 </form>
             </FormComponent>
         </div>
