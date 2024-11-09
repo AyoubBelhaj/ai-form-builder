@@ -11,7 +11,6 @@ const page = async (props: Props) => {
     
     return (
         <>
-            <div className='text-4xl font-bold px-4 m-5'>My forms</div>
             <FormsList forms={forms}/>
         </>
     )
