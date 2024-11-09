@@ -1,11 +1,12 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { FormSelectModel, QuestionSelectModel, FieldOptionsSelectModel } from '@/types/form-types';
 import { Form as FormComponent, FormField as ShadcnFormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import FormField from './FormField';
 import { publishForm } from '../actions/mutateForm';
+import FormPublishSuccess from './FormPublishSuccess';
 
 type Props = {
     form: Form,
@@ -20,13 +21,21 @@ interface Form extends FormSelectModel {
 
 const Form = (props: Props) => {
 
+    const [successDialogOpen, setSucessDialogOpen] = useState(false) ;
+
     const form = useForm();
 
-    const {editMode} = props;
+    const { editMode } = props;
 
-    const handleSubmit = async (data: any) => {
-        await publishForm(props.form.id);
-        console.log(data);
+    const handleDialogChange = (open: boolean) => {
+        setSucessDialogOpen(open);
+    }
+
+    const onSubmit = async (data: any) => {
+        if (editMode) {
+            await publishForm(props.form.id);
+            setSucessDialogOpen(true);
+        }
     }
 
     return (
@@ -34,7 +43,7 @@ const Form = (props: Props) => {
             <h1 className='text-lg font-bold py-3'>{props.form.name}</h1>
             <h3 className='text-md'>{props.form.description}</h3>
             <FormComponent {...form}>
-                <form onSubmit={handleSubmit} className='grid w-full max-w-3xl items-center gap-6 text-left'>
+                <form onSubmit={form.handleSubmit(onSubmit)} className='grid w-full max-w-3xl items-center gap-6 text-left'>
                     {props.form.questions.map((question, index) => {
                         return (
                             <FormItem key={question.id}>
@@ -47,7 +56,7 @@ const Form = (props: Props) => {
                                                 {index + 1}.{" "}{question.text}
                                             </FormLabel>
                                             <FormControl>
-                                                <FormField element={question} key={index} value={field.value} onChange={field.onChange}/>
+                                                <FormField element={question} key={index} value={field.value} onChange={field.onChange} />
                                             </FormControl>
                                         </FormItem>
                                     )} />
@@ -57,6 +66,7 @@ const Form = (props: Props) => {
                     <Button type='submit'>{editMode ? "Publish" : "Submit"}</Button>
                 </form>
             </FormComponent>
+            <FormPublishSuccess formId={props.form.id} open={successDialogOpen} onOpenChange={handleDialogChange}/>
         </div>
     )
 }
