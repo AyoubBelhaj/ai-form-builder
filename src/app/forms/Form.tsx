@@ -5,6 +5,7 @@ import { Form as FormComponent, FormField as ShadcnFormField, FormItem, FormLabe
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import FormField from './FormField';
+import { publishForm } from '../actions/mutateForm';
 
 type Props = {
     form: Form,
@@ -23,7 +24,8 @@ const Form = (props: Props) => {
 
     const {editMode} = props;
 
-    const handleSubmit = (data: any) => {
+    const handleSubmit = async (data: any) => {
+        await publishForm(props.form.id);
         console.log(data);
     }
 

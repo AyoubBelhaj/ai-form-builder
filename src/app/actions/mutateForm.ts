@@ -3,18 +3,18 @@
 import { db } from "@/db";
 import { forms, questions as dbQuestions, fieldOptions, questions, questionsRelations } from '@/db/schema'
 import { auth } from "@/auth";
-import { InferSelectModel } from "drizzle-orm";
+import { eq, InferSelectModel } from "drizzle-orm";
 
 type Form = InferSelectModel<typeof forms>
 type Question = InferSelectModel<typeof dbQuestions>
 type FieldOptions = InferSelectModel<typeof fieldOptions>
 
-interface SaveFormData extends Form{
-    questions : Array<Question & {fieldOptions?: FieldOptions[]}>
+interface SaveFormData extends Form {
+    questions: Array<Question & { fieldOptions?: FieldOptions[] }>
 }
 
 
-export async function saveForm(data : SaveFormData) {
+export async function saveForm(data: SaveFormData) {
     const { name, description, questions } = data;
     const session = await auth();
     const userId = session?.user?.id;
@@ -35,10 +35,10 @@ export async function saveForm(data : SaveFormData) {
     });
 
     await db.transaction(async (tx) => {
-        for ( const question of newQuestions ) {
-            const [{questionId}] = await tx.insert(dbQuestions)
-            .values(question)
-            .returning({questionId: dbQuestions.id});
+        for (const question of newQuestions) {
+            const [{ questionId }] = await tx.insert(dbQuestions)
+                .values(question)
+                .returning({ questionId: dbQuestions.id });
 
             if (question.fieldOptions && question.fieldOptions.length > 0) {
                 await tx.insert(fieldOptions).values(
@@ -53,5 +53,11 @@ export async function saveForm(data : SaveFormData) {
     })
 
     return formId;
+}
+
+export async function publishForm(formId: number) {
+    await db.update(forms)
+        .set({ published: true })
+        .where(eq(forms.id, formId))
 }
 
