@@ -4,7 +4,6 @@ import {
     Select,
     SelectContent,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
 } from "@/components/ui/select";
 
@@ -40,9 +39,7 @@ const FormField = ({ element, value, onChange }: Props) => {
                 </SelectTrigger>
                 <SelectContent>
                     {element.fieldOptions.map((option, index) => (
-                        <SelectItem key={`${option.text} ${option.value}`} value={`answerId_${option.id}`}>
-                            {option.text}
-                        </SelectItem>
+                         <SelectItem key={`${option.text} ${option.value}`} value={`answerId_${option.id}`}>{option.text}</SelectItem>
                     ))}
                 </SelectContent>
             </Select>
@@ -52,9 +49,7 @@ const FormField = ({ element, value, onChange }: Props) => {
                 {element.fieldOptions.map((option, index) => (
                     <div key={`${option.text} ${option.value}`} className='flex items-center space-x-2'>
                         <FormControl>
-                            <RadioGroupItem value={`answerId_${option.id}`} id={option.value?.toString() || `answerId_${option.id}`}>
-                                {option.text}
-                            </RadioGroupItem>
+                        <RadioGroupItem value={`answerId_${option.id}`} id={option?.value?.toString() || `answerId_${option.id}`}>{option.text}</RadioGroupItem>
                         </FormControl>
                         <Label className='text-base'>{option.text}</Label>
                     </div>
