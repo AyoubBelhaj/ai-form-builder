@@ -1,10 +1,10 @@
-import NextAuth, { type Session, type User } from "next-auth";
+import { type Session, type User } from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import { db } from "@/db/index";
 
 
-export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
+export const authOptions = {
     
     adapter: DrizzleAdapter(db),
     providers: [GoogleProvider({
@@ -20,5 +20,5 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
             return session;
         },
     },
-})
+}
 

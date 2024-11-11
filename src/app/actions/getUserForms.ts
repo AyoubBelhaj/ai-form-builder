@@ -1,9 +1,8 @@
 "use server";
-
-import { auth } from "@/auth";
 import { db } from "@/db";
 import { forms } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { auth } from "../api/auth/[...nextauth]/route";
 
 export async function getUserForms() {
     const session = await auth();

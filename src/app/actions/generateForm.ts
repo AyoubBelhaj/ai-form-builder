@@ -65,9 +65,9 @@ export async function generateForm(
             
             
             const savedId = await saveForm({
-                name : jsonResult.name,
+                name: jsonResult.name,
                 description: jsonResult.description,
-                questions: jsonResult.questions
+                questions: jsonResult.questions,
             }); 
                         
             revalidatePath("/");

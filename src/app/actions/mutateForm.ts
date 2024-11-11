@@ -2,8 +2,9 @@
 
 import { db } from "@/db";
 import { forms, questions as dbQuestions, fieldOptions, questions, questionsRelations } from '@/db/schema'
-import { auth } from "@/auth";
+
 import { eq, InferSelectModel } from "drizzle-orm";
+import { auth } from "../api/auth/[...nextauth]/route";
 
 type Form = InferSelectModel<typeof forms>
 type Question = InferSelectModel<typeof dbQuestions>
