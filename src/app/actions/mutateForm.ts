@@ -4,13 +4,13 @@ import { db } from "@/db";
 import { forms, questions as dbQuestions, fieldOptions, questions, questionsRelations } from '@/db/schema'
 
 import { eq, InferSelectModel } from "drizzle-orm";
-import { auth } from "../api/auth/[...nextauth]/route";
+import { auth } from "@/auth";
 
 type Form = InferSelectModel<typeof forms>
 type Question = InferSelectModel<typeof dbQuestions>
 type FieldOptions = InferSelectModel<typeof fieldOptions>
 
-interface SaveFormData extends Form {
+export interface SaveFormData extends Form {
     questions: Array<Question & { fieldOptions?: FieldOptions[] }>
 }
 

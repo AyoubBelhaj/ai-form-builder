@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from 'zod';
-import { saveForm } from "./mutateForm";
+import { saveForm, SaveFormData } from "./mutateForm";
 
 
 export async function generateForm(
@@ -61,14 +61,12 @@ export async function generateForm(
             const cleanedText = json.candidates[0].content.parts[0].text.replace(/```json|```/g, '');
             const jsonResult = JSON.parse(cleanedText); 
             
-            console.log("jsonResult",JSON.stringify(jsonResult));
-            
             
             const savedId = await saveForm({
                 name: jsonResult.name,
                 description: jsonResult.description,
                 questions: jsonResult.questions,
-            }); 
+            } as SaveFormData); 
                         
             revalidatePath("/");
 
@@ -76,7 +74,7 @@ export async function generateForm(
                 message: "success" , data: {savedFormId : savedId}
             }
     }catch(e) {
-        console.log(e);
+        console.error(e);
         return {
             message: "Failed to create form"
         }

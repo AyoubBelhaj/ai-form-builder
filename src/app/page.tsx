@@ -1,6 +1,5 @@
 import { SessionProvider } from 'next-auth/react'
 import Header from '@/components/ui/header'
-import { db } from '@/db'
 import LandingPage from './landing-page';
 
 

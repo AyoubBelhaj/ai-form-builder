@@ -36,7 +36,6 @@ const Form = (props: Props) => {
     }
 
     const onSubmit = async (data: any) => {
-        console.log(data);
 
         if (editMode) {
             await publishForm(props.form.id);
@@ -72,7 +71,6 @@ const Form = (props: Props) => {
 
             if (response.status === 200) {
                 router.push(`/forms/${props.form.id}/success`);
-                console.log("success");
                 
             } else {
                 console.error("Error submitting form");
