@@ -2,7 +2,7 @@
 import { db } from "@/db";
 import { forms } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { auth } from "../api/auth/[...nextauth]/route";
+import { auth } from "@/auth";
 
 export async function getUserForms() {
     const session = await auth();

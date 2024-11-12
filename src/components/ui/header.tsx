@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from './button';
 import Link from 'next/link';
 import Image from 'next/image';
-import { auth, signOut } from '@/app/api/auth/[...nextauth]/route';
+import { auth, signOut } from '@/auth';
 
 
 type Props = {}
