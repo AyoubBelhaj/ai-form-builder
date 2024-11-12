@@ -15,6 +15,7 @@ import {
 
 } from "@/components/ui/dialog"
 import { navigate } from '../actions/navigateToForm'
+import { Plus } from 'lucide-react'
 
 
 
@@ -63,8 +64,8 @@ const FormGenerator = (props: Props) => {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <Button onClick={onFormCreate}>Create your Form</Button>
-            <DialogContent className='sm:mx-w-[425px]'>
+            <Button onClick={onFormCreate}><Plus className='w-4 h-4 mr-2' />Create Form</Button>
+            <DialogContent className='sm:max-w-[425px]'>
                 <DialogHeader>
                     <DialogTitle>Create your own Form</DialogTitle>
                 </DialogHeader>
