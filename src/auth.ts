@@ -5,7 +5,7 @@ import { db } from "@/db/index";
 
 
 const authOptions = {
-    
+
     adapter: DrizzleAdapter(db),
     providers: [GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -20,6 +20,7 @@ const authOptions = {
             return session;
         },
     },
+    secret: process.env.NEXTAUTH_SECRET,
 }
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth(authOptions);
