@@ -22,7 +22,7 @@ const Header = async (props: Props) => {
 
     return (
 
-        <header className='border bottom-1'>
+        <header className='border-b'>
             <nav className='bg-white border-gray-200 px-4 py-2.5'>
                 <div className='flex flex-wrap justify-between items-center max-w-screen-xl'>
                     <h1><Link href="/">AI Form Builder</Link></h1>

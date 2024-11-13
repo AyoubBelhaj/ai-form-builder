@@ -29,11 +29,11 @@ const FormField = ({ element, value, onChange }: Props) => {
     if (!element) return null;
 
     const components = {
-        Input: () => <Input type='text' onChange={onChange}/>,
-        Switch: () => <Switch />,
+        Input: () => <Input type='text' onChange={onChange} value={value}/>,
+        Switch: () => <Switch onCheckedChange={() => onChange}/>,
         Textarea: () => <Textarea />,
         Select: () => (
-            <Select onValueChange={onChange}>
+            <Select onValueChange={onChange} value={value}>
                 <SelectTrigger>
                     <SelectValue placeholder="select an option" />
                 </SelectTrigger>
@@ -45,7 +45,7 @@ const FormField = ({ element, value, onChange }: Props) => {
             </Select>
         ),
         RadioGroup: () => (
-            <RadioGroup onValueChange={onChange}>
+            <RadioGroup onValueChange={onChange} value={value} >
                 {element.fieldOptions.map((option, index) => (
                     <div key={`${option.text} ${option.value}`} className='flex items-center space-x-2'>
                         <FormControl>

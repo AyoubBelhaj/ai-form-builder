@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SidebarNavItem } from '@/types/nav-types';
@@ -16,8 +16,8 @@ const DashboardNav = ({ items }: DashboardNavProps) => {
     if (!items?.length) return null;
     return (
         <nav>
-            {items.map((item,index) => {
-                const Icon = Icons[item?.icon || "list"] ;
+            {items.map((item, index) => {
+                const Icon = Icons[item?.icon || "list"];
                 const isActive = path === item.href;
                 return item.href && (
                     <Link key={index} href={item.disabled ? "/" : item.href}>
@@ -25,12 +25,12 @@ const DashboardNav = ({ items }: DashboardNavProps) => {
                             isActive ? "bg-accent" : "transparent",
                             item.disabled ? "cursor-not-allowed opacity-80" : "cursor-pointer",
                         )}>
-                            <Icon className="w-6 h-6 mr-2"/>
+                            <Icon className="w-6 h-6 mr-2" />
                             {item.title}
                         </span>
                     </Link>
                 )
-            })}
+            })} 
         </nav>
     )
 }
