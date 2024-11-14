@@ -13,8 +13,7 @@ function SignOut() {
     return (
         <form action={async () => {
             "use server"
-            signOut();
-            redirect(process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000");
+            await signOut();
         }}><Button>Sign Out</Button></form>
     )
 }
