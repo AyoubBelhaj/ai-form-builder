@@ -13,7 +13,14 @@ function SignOut() {
     return (
         <form action={async () => {
             "use server"
-            await signOut();
+            try{
+                await signOut();
+            }catch (e) {
+                console.error(e);
+            }finally {
+                redirect('/');
+            }
+            
         }}><Button>Sign Out</Button></form>
     )
 }
