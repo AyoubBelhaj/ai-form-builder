@@ -7,8 +7,9 @@ import { useForm } from 'react-hook-form';
 import FormField from './FormField';
 import { publishForm } from '../actions/mutateForm';
 import FormPublishSuccess from './FormPublishSuccess';
-import { submitAnswers, type Answer } from '../actions/submitAnswers';
+import { type Answer } from '../actions/submitAnswers';
 import { useRouter } from 'next/navigation';
+
 
 type Props = {
     form: Form,
@@ -42,22 +43,26 @@ const Form = (props: Props) => {
             setSucessDialogOpen(true);
         } else {
             let answers: Answer[] = [];
-            for (const [questionId, value] of Object.entries(data)) {
-                const id = parseInt(questionId.replace('question_', ''));
-                let fieldOptionsId = null;
+            for (const [question_Id, value] of Object.entries(data)) {
+                const Qid = parseInt(question_Id.replace('question_', ''));
+                let fieldOptionsId: number | null = null;
                 let textValue = null;
 
-                if (typeof value == "string" && value.includes('answerId_')) {
+                if (typeof value === "string" && value.includes('answerId_')) {
                     fieldOptionsId = parseInt(value.replace('answerId_', ''));
+                    const questionTarget = props.form.questions.find(({id}) => id === Qid);
+                    textValue = (questionTarget?.fieldOptions.find(({id}) => id === fieldOptionsId))?.value;
+                    
                 } else {
                     textValue = value as string;
                 }
 
                 answers.push({
-                    questionId: id,
+                    questionId: Qid,
                     fieldOptionsId,
                     value: textValue,
                 });
+               
             }
 
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
@@ -81,35 +86,33 @@ const Form = (props: Props) => {
 
     return (
         <div className='text-center'>
-            <h1 className='text-lg font-bold py-3'>{props.form.name}</h1>
-            <h3 className='text-md'>{props.form.description}</h3>
-            <FormComponent {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className='grid w-full max-w-3xl items-center gap-6 text-left'>
-                    {props.form.questions.map((question, index) => {
-                        return (
-                            <FormItem key={question.id}>
-                                <ShadcdnFormField control={form.control}
-                                    name={`question_${question.id}`}
-                                    key={`${question.text}_${index}`}
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className='text-base mt-3'>
-                                                {index + 1}.{" "}{question.text}
-                                            </FormLabel>
-                                            <FormControl>
-                                                <FormField element={question} key={index} value={field.value} onChange={field.onChange} />
-                                            </FormControl>
-                                        </FormItem>
-                                    )} />
-                            </FormItem>
-                        )
-                    })}
-                    <Button type='submit'>{editMode ? "Publish" : "Submit"}</Button>
-                </form>
-            </FormComponent>
-            <FormPublishSuccess formId={props.form.id} open={successDialogOpen} onOpenChange={handleDialogChange} />
+          <h1 className='text-lg font-bold py-3'>{props.form.name}</h1>
+          <h3 className='text-md'>{props.form.description}</h3>
+          <FormComponent {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='grid w-full max-w-3xl items-center gap-6 my-4 text-left'>
+              {props.form.questions.map((question, index) => {
+                return (
+                  <ShadcdnFormField
+                    control={form.control}
+                    name={`question_${question.id}`}
+                    key={`${question.text}_${index}`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className='text-base mt-3'>{index + 1}.{" "}{question.text}</FormLabel>
+                        <FormControl>
+                          <FormField element={question} key={index} value={field.value} onChange={field.onChange} />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                )
+              })}
+              <Button type='submit'>{editMode ? "Publish" : "Submit"}</Button>
+            </form>
+          </FormComponent>
+          <FormPublishSuccess formId={props.form.id} open={successDialogOpen} onOpenChange={handleDialogChange} />
         </div>
-    )
+      )
 }
 
 export default Form

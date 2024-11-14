@@ -28,12 +28,24 @@ const FormField = ({ element, value, onChange }: Props) => {
 
     if (!element) return null;
 
+    const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) : void => {
+        onChange(event.target.value);
+    };
+
+    const handleSelectChange = (value: string): void => {
+        onChange(value);
+    };
+    
+    const handleRadioChange = (value: string): void => {
+        onChange(value);
+    };    
+
     const components = {
         Input: () => <Input type='text' onChange={onChange} value={value}/>,
-        Switch: () => <Switch onCheckedChange={() => onChange}/>,
-        Textarea: () => <Textarea />,
+        Switch: () => <Switch onCheckedChange={(checked) => onChange(checked ? 'true' : 'false' )}/>,
+        Textarea: () => <Textarea value={value} onChange={handleTextareaChange}/>,
         Select: () => (
-            <Select onValueChange={onChange} value={value}>
+            <Select value={value} onValueChange={handleSelectChange}>
                 <SelectTrigger>
                     <SelectValue placeholder="select an option" />
                 </SelectTrigger>
@@ -45,7 +57,7 @@ const FormField = ({ element, value, onChange }: Props) => {
             </Select>
         ),
         RadioGroup: () => (
-            <RadioGroup onValueChange={onChange} value={value} >
+            <RadioGroup value={value} onValueChange={handleRadioChange}>
                 {element.fieldOptions.map((option, index) => (
                     <div key={`${option.text} ${option.value}`} className='flex items-center space-x-2'>
                         <FormControl>

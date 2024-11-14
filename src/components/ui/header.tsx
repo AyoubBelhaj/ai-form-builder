@@ -3,6 +3,8 @@ import { Button } from './button';
 import Link from 'next/link';
 import Image from 'next/image';
 import { auth, signOut } from '@/auth';
+import { redirect } from 'next/navigation';
+
 
 
 type Props = {}
@@ -11,7 +13,8 @@ function SignOut() {
     return (
         <form action={async () => {
             "use server"
-            await signOut();
+            signOut();
+            redirect("/");
         }}><Button>Sign Out</Button></form>
     )
 }
@@ -24,7 +27,7 @@ const Header = async (props: Props) => {
 
         <header className='border-b'>
             <nav className='bg-white border-gray-200 px-4 py-2.5'>
-                <div className='flex flex-wrap justify-between items-center max-w-screen-xl'>
+                <div className='flex sm:flex-row lg:flex-wrap justify-between items-center max-w-screen-xl w-full'>
                     <h1><Link href="/">AI Form Builder</Link></h1>
 
                     {
